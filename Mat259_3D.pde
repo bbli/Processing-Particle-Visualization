@@ -9,7 +9,8 @@ void setup() {
   cam = new PeasyCam(this, 500);
   cam.setFreeRotationMode();
   int box_size = 300;
-  flock = new Flock(box_size);
+  PVector offset = new PVector(0,0,0);
+  flock = new Flock(box_size, offset);
   int inital_flock_size= 10;
   // Add an initial set of particles into the system
   for (int i = 0; i < inital_flock_size; i++) {

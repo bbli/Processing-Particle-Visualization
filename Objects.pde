@@ -3,10 +3,12 @@
 class Flock {
   ArrayList<Particle> particles; // An ArrayList for all the particles
   int box_size;
+  PVector offset;
 
-  Flock(int new_box_size) {
+  Flock(int box_size, PVector offset) {
     particles = new ArrayList<Particle>(); // Initialize the ArrayList
-    box_size=new_box_size;
+    this.box_size=box_size;
+    this.offset = offset;
   }
 
   void addParticle(Particle b) {
@@ -51,8 +53,8 @@ class Particle {
   float box_size;
   float lifespan=5;
 
-  Particle(float x, float y, float z, int new_box_size) {
-    box_size= (float)new_box_size;
+  Particle(float x, float y, float z, int box_size) {
+    this.box_size= (float)box_size;
     acceleration = new PVector(0, 0,0);
 
     // This is a new PVector method not yet implemented in JS
