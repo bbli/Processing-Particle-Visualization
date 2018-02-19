@@ -6,10 +6,10 @@ Flock flock;
 
 void setup() {
   size(1200, 800,P3D);
-  cam = new PeasyCam(this, 500);
+  cam = new PeasyCam(this, 1200);
   cam.setFreeRotationMode();
   int box_size = 300;
-  PVector offset = new PVector(0,0,0);
+  PVector offset = new PVector(200,0,0);
   flock = new Flock(box_size, offset);
   int inital_flock_size= 10;
   // Add an initial set of particles into the system

@@ -5,7 +5,7 @@ class Flock {
   int box_size;
   PVector offset;
 
-  Flock(int box_size, PVector offset) {
+  Flock(int box_size,PVector offset) {
     particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.box_size=box_size;
     this.offset = offset;
@@ -17,18 +17,46 @@ class Flock {
   ////////////////////////////////////////////////////////////////////////////
   void run() {
     for (Particle b : particles) {
-      b.run(particles);  // Passing the entire list of particles to each boid individually
+      b.update(particles);  // Passing the entire list of particles to each boid individually
     }
-    displaySystem();
+    borders();
+    display();
     //removeParticles();
   }
 
+  void borders(){
+    for (Particle a: particles){
+      if (a.position.x < -box_size) a.velocity.x = -a.velocity.x;
+      if (a.position.y < -box_size) a.velocity.y = -a.velocity.y;
+      if (a.position.z < -box_size) a.velocity.z = -a.velocity.z;
+      if (a.position.x > box_size) a.velocity.x = -a.velocity.x;
+      if (a.position.y > box_size) a.velocity.y = -a.velocity.y;
+      if (a.position.z > box_size) a.velocity.z = -a.velocity.z;
 
-  void displaySystem(){
+    }
+  }
+
+  void display(){
+    //draw the enclosing box
     stroke(255,255,255);
     strokeWeight(3);
     noFill();
+    pushMatrix();
+    translate(offset.x, offset.y, offset.z);
     box(2*box_size);
+    popMatrix();
+
+    for (Particle a: particles){
+
+      fill(200, 100);
+      stroke(255);
+      strokeWeight(3);
+      pushMatrix();
+      translate(offset.x, offset.y, offset.z);
+      translate(a.position.x, a.position.y, a.position.z);
+      box(10);
+      popMatrix();
+    }
   }
   //void removeParticles(){
     //Iterator it = new Iterator(particles);
@@ -37,7 +65,7 @@ class Flock {
       //if (a.isDead()) particles.remove();
     //}
   //}
-  ////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
 }
 
@@ -70,13 +98,15 @@ class Particle {
     maxforce = 0.3;
   }
 
-  void run(ArrayList<Particle> particles) {
+////////////////////////////////////////////////////////////////////////////
+  void update(ArrayList<Particle> particles) {
     acc__flockForces(particles);
-    pos_vel__update();
-    borders();
-    render(position);
+    pos_vel__change();
+    //borders();
+    //render(position);
   }
 
+  ////////////////////
   void applyForce(PVector force) {
     // We could add mass here if we want A = F / M
     acceleration.add(force);
@@ -96,9 +126,9 @@ class Particle {
     applyForce(ali);
     applyForce(coh);
   }
-  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////
 
-  void pos_vel__update() {
+  void pos_vel__change() {
     // Update velocity
     velocity.add(acceleration);
     // Limit speed
@@ -107,31 +137,8 @@ class Particle {
     // Reset accelertion to 0 each cycle
     acceleration.mult(0);
   }
+////////////////////////////////////////////////////////////////////////////
 
-  // Wraparound
-  void borders() {
-    if (position.x < -box_size) velocity.x = -velocity.x;
-    if (position.y < -box_size) velocity.y = -velocity.y;
-    if (position.z < -box_size) velocity.z = -velocity.z;
-    if (position.x > box_size) velocity.x = -velocity.x;
-    if (position.y > box_size) velocity.y = -velocity.y;
-    if (position.z > box_size) velocity.z = -velocity.z;
-  }
-
-  void render(PVector position) {
-    // Draw a triangle rotated in the direction of velocity
-    float theta = velocity.heading2D() + radians(90);
-    // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
-    
-    fill(200, 100);
-    stroke(255);
-    strokeWeight(3);
-    pushMatrix();
-    translate(position.x, position.y, position.z);
-    rotate(theta);
-    box(10);
-    popMatrix();
-  }
   boolean isDead(){
     if ((int)lifespan>0) return false;
     else return true;
