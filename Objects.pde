@@ -29,7 +29,6 @@ class Flock {
 
 
 // The Particle class
-
 class Particle {
 
   PVector position;
@@ -58,10 +57,10 @@ class Particle {
   }
 
   void run(ArrayList<Particle> particles) {
-    flock(particles);
-    update();
+    acc__flockForces(particles,position);
+    pos_vel__update();
     borders();
-    render();
+    render(position);
   }
 
   void applyForce(PVector force) {
@@ -69,32 +68,9 @@ class Particle {
     acceleration.add(force);
   }
 
-  // We accumulate a new acceleration each time based on three rules
-  void flock(ArrayList<Particle> particles) {
-    PVector sep = separate(particles);   // Separation
-    PVector ali = align(particles);      // Alignment
-    PVector coh = cohesion(particles);   // Cohesion
-    // Arbitrarily weight these forces
-    sep.mult(1.5);
-    ali.mult(1.0);
-    coh.mult(1.0);
-    // Add the force vectors to acceleration
-    applyForce(sep);
-    applyForce(ali);
-    applyForce(coh);
-  }
+  ////////////////////////////////////////////////////////////////////////////
 
-  // Method to update position
-  void update() {
-    // Update velocity
-    velocity.add(acceleration);
-    // Limit speed
-    velocity.limit(maxspeed);
-    position.add(velocity);
-    // Reset accelertion to 0 each cycle
-    acceleration.mult(0);
-  }
-
+  ////////////////////
   // A method that calculates and applies a steering force towards a target
   // STEER = DESIRED MINUS VELOCITY
   PVector seek(PVector target) {
@@ -102,45 +78,38 @@ class Particle {
     // Scale to maximum speed
     desired.normalize();
     desired.mult(maxspeed);
-
-    // Above two lines of code below could be condensed with new PVector setMag() method
-    // Not using this method until Processing.js catches up
-    // desired.setMag(maxspeed);
-
     // Steering = Desired minus Velocity
     PVector steer = PVector.sub(desired, velocity);
     steer.limit(maxforce);  // Limit to maximum steering force
     return steer;
   }
 
-  void render() {
-    // Draw a triangle rotated in the direction of velocity
-    float theta = velocity.heading2D() + radians(90);
-    // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
-    
-    fill(200, 100);
-    stroke(255);
-    strokeWeight(3);
-    pushMatrix();
-    translate(position.x, position.y, position.z);
-    rotate(theta);
-    box(10);
-    popMatrix();
+  // Cohesion
+  // For the average position (i.e. center) of all nearby particles, calculate steering vector towards that position
+  PVector cohesion (ArrayList<Particle> particles, PVector position) {
+    float neighbordist = 50;
+    PVector sum = new PVector(0, 0, 0);   // Start with empty vector to accumulate all positions
+    int count = 0;
+    for (Particle other : particles) {
+      float d = PVector.dist(position, other.position);
+      if ((d > 0) && (d < neighbordist)) {
+        sum.add(other.position); // Add position
+        count++;
+      }
+    }
+    if (count > 0) {
+      sum.div(count);
+      return seek(sum);  // Steer towards the position
+    } 
+    else {
+      return new PVector(0, 0, 0);
+    }
   }
-
-  // Wraparound
-  void borders() {
-    if (position.x < -box_size) velocity.x = -velocity.x;
-    if (position.y < -box_size) velocity.y = -velocity.y;
-    if (position.z < -box_size) velocity.z = -velocity.z;
-    if (position.x > box_size) velocity.x = -velocity.x;
-    if (position.y > box_size) velocity.y = -velocity.y;
-    if (position.z > box_size) velocity.z = -velocity.z;
-  }
+  ////////////////////
 
   // Separation
   // Method checks for nearby particles and steers away
-  PVector separate (ArrayList<Particle> particles) {
+  PVector separate (ArrayList<Particle> particles, PVector position) {
     float desiredseparation = 25.0f;
     PVector steer = new PVector(0, 0, 0);
     int count = 0;
@@ -161,13 +130,8 @@ class Particle {
     if (count > 0) {
       steer.div((float)count);
     }
-
     // As long as the vector is greater than 0
     if (steer.mag() > 0) {
-      // First two lines of code below could be condensed with new PVector setMag() method
-      // Not using this method until Processing.js catches up
-      // steer.setMag(maxspeed);
-
       // Implement Reynolds: Steering = Desired - Velocity
       steer.normalize();
       steer.mult(maxspeed);
@@ -179,7 +143,7 @@ class Particle {
 
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
-  PVector align (ArrayList<Particle> particles) {
+  PVector align (ArrayList<Particle> particles, PVector position) {
     float neighbordist = 50;
     PVector sum = new PVector(0, 0,0);
     int count = 0;
@@ -208,27 +172,59 @@ class Particle {
     }
   }
 
-  // Cohesion
-  // For the average position (i.e. center) of all nearby particles, calculate steering vector towards that position
-  PVector cohesion (ArrayList<Particle> particles) {
-    float neighbordist = 50;
-    PVector sum = new PVector(0, 0, 0);   // Start with empty vector to accumulate all positions
-    int count = 0;
-    for (Particle other : particles) {
-      float d = PVector.dist(position, other.position);
-      if ((d > 0) && (d < neighbordist)) {
-        sum.add(other.position); // Add position
-        count++;
-      }
-    }
-    if (count > 0) {
-      sum.div(count);
-      return seek(sum);  // Steer towards the position
-    } 
-    else {
-      return new PVector(0, 0, 0);
-    }
+
+  void acc__flockForces(ArrayList<Particle> particles, PVector position) {
+    PVector sep = separate(particles, position);   // Separation
+    PVector ali = align(particles, position);      // Alignment
+    PVector coh = cohesion(particles, position);   // Cohesion
+    // Arbitrarily weight these forces
+    sep.mult(1.5);
+    ali.mult(1.0);
+    coh.mult(1.0);
+    // Add the force vectors to acceleration
+    applyForce(sep);
+    applyForce(ali);
+    applyForce(coh);
   }
+  ////////////////////////////////////////////////////////////////////////////
+
+  void pos_vel__update() {
+    // Update velocity
+    velocity.add(acceleration);
+    // Limit speed
+    velocity.limit(maxspeed);
+    position.add(velocity);
+    // Reset accelertion to 0 each cycle
+    acceleration.mult(0);
+  }
+
+  // Wraparound
+  void borders() {
+    if (position.x < -box_size) velocity.x = -velocity.x;
+    if (position.y < -box_size) velocity.y = -velocity.y;
+    if (position.z < -box_size) velocity.z = -velocity.z;
+    if (position.x > box_size) velocity.x = -velocity.x;
+    if (position.y > box_size) velocity.y = -velocity.y;
+    if (position.z > box_size) velocity.z = -velocity.z;
+  }
+
+  void render(PVector position) {
+    // Draw a triangle rotated in the direction of velocity
+    float theta = velocity.heading2D() + radians(90);
+    // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
+    
+    fill(200, 100);
+    stroke(255);
+    strokeWeight(3);
+    pushMatrix();
+    translate(position.x, position.y, position.z);
+    rotate(theta);
+    box(10);
+    popMatrix();
+  }
+
+
+
 }
 
 
