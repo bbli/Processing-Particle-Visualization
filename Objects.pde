@@ -5,10 +5,10 @@ class Flock {
   int box_size;
   PVector offset;
 
-  Flock(int box_size,PVector offset) {
+  Flock(PVector offset) {
     particles = new ArrayList<Particle>(); // Initialize the ArrayList
-    this.box_size=box_size;
     this.offset = offset;
+    box_size=300;
   }
 
   void addParticle(Particle b) {
@@ -25,13 +25,22 @@ class Flock {
   }
 
   void borders(){
+    //for (Particle a: particles){
+      //if (a.position.x < -box_size) a.velocity.x = -a.velocity.x;
+      //if (a.position.y < -box_size) a.velocity.y = -a.velocity.y;
+      //if (a.position.z < -box_size) a.velocity.z = -a.velocity.z;
+      //if (a.position.x > box_size) a.velocity.x = -a.velocity.x;
+      //if (a.position.y > box_size) a.velocity.y = -a.velocity.y;
+      //if (a.position.z > box_size) a.velocity.z = -a.velocity.z;
+
+    //}
     for (Particle a: particles){
-      if (a.position.x < -box_size) a.velocity.x = -a.velocity.x;
-      if (a.position.y < -box_size) a.velocity.y = -a.velocity.y;
-      if (a.position.z < -box_size) a.velocity.z = -a.velocity.z;
-      if (a.position.x > box_size) a.velocity.x = -a.velocity.x;
-      if (a.position.y > box_size) a.velocity.y = -a.velocity.y;
-      if (a.position.z > box_size) a.velocity.z = -a.velocity.z;
+      if (a.position.x < -box_size) a.position.x = box_size;
+      if (a.position.y < -box_size) a.position.y = box_size;
+      if (a.position.z < -box_size) a.position.z = box_size;
+      if (a.position.x > box_size) a.position.x = -box_size;
+      if (a.position.y > box_size) a.position.y = -box_size;
+      if (a.position.z > box_size) a.position.z = -box_size;
 
     }
   }
@@ -90,7 +99,7 @@ class Particle {
 
     // Leaving the code temporarily this way so that this example runs in JS
     float angle = random(TWO_PI);
-    velocity = new PVector(cos(angle), sin(angle), random(-1,1));
+    velocity = new PVector(cos(angle), sin(angle), random(-0.2,0));
 
     position = new PVector(x, y, z);
     r = 2.0;
