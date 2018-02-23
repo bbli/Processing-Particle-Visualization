@@ -68,14 +68,14 @@ class Flow_Field{
         float angle = noise(xoff, yoff )* TWO_PI;
         PVector v = PVector.fromAngle(angle);
         for (int k = 0; k < box_resolution; k++) {
-          v.setMag(sqrt(sqrt(sq(i-50)+sq(j-50)+sq(k-50))));
+          v.setMag(sqrt(sq(i-50)+sq(j-50)+sq(k-50)));
           v.mult(noise_level);
           //
           v.y = -v.y;
           field[i][box_resolution-j-1][k].add(v);
           //
           v.y = -v.y;
-          v.z = z_frac*noise(xoff, yoff, zoff);
+          v.z = z_frac*random(-1,1);
           //
           field[i][j][k].add(v);
           zoff += inc;
