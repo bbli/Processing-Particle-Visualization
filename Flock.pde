@@ -9,7 +9,7 @@ class Flock {
   Flock(PVector offset) {
     particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.offset = offset;
-    box_size=300;
+    box_size=400;
   }
 
   void addParticle(Particle b) {
