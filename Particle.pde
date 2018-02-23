@@ -31,7 +31,7 @@ class Particle {
     //acc__flockForces(particles);
     velocity.add(this.acceleration);
     // To get velocity out of 0 velocity zones. Also can make system look more chaotic
-    velocity.add(PVector.random3D().setMag(0.2));
+    //velocity.add(PVector.random3D().setMag(0.2));
     // Limit speed
     //velocity.limit(maxspeed);
     position.add(velocity);
