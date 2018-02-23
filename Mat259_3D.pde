@@ -52,11 +52,11 @@ class Flow_Field{
     };
   }
 
-  void createNoiseField(){
+  void createNoiseField(float level){
     noiseSeed(20);
     //float zoff =0;
     //float noise_level=5;
-    float noise_level=10;
+    float noise_level=level;
     float inc = 0.1;
     float xoff =0;
     float z_frac =0.4;
