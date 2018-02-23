@@ -19,11 +19,11 @@ void setup() {
   }
   //int box_size=300;
   flow_field = new Flow_Field();
-  flow_field.createNoiseField(float(1));
-  flow_field.createCirculatingField(float(400));
-  flow_field.ZXCirculatingField(float(5));
-  flow_field.createUnitRadialField(float(2));
-  flow_field.createRadialField(float(10));
+  flow_field.createNoiseField(0.06,5);
+  flow_field.createCirculatingField(float(800));
+  flow_field.ZXCirculatingField(0);
+  flow_field.createUnitRadialField(1);
+  flow_field.createRadialField(50);
 }
 
 void draw() {
@@ -53,14 +53,14 @@ class Flow_Field{
     };
   }
 
-  void createNoiseField(float level){
+  void createNoiseField(float level, float z_level){
     noiseSeed(20);
     //float zoff =0;
     //float noise_level=5;
     float noise_level=level;
     float inc = 0.1;
     float xoff =0;
-    float z_frac =0.4;
+    float z_frac =z_level;
     for (int i = 0; i < box_resolution; i++) {
       float yoff =0;
       for (int j = 0; j < box_resolution; j++) {
