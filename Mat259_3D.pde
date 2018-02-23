@@ -15,14 +15,15 @@ void setup() {
   int box_size = 300;
   for (int i = 0; i < inital_flock_size; i++) {
     //flock.addParticle(new Particle(random(-box_size,box_size),random(-box_size,box_size),0, flock.box_size));
-    flock.addParticle(new Particle(random(-100,100),random(-100,100),random(-100,100), flock.box_size));
+    flock.addParticle(new Particle(2*random(-100,100),2*random(-100,100),random(-100,100), flock.box_size));
   }
   //int box_size=300;
   flow_field = new Flow_Field();
-  flow_field.createNoiseField();
-  flow_field.createCirculatingField();
-  flow_field.ZXCirculatingField();
-  flow_field.createRadialField();
+  flow_field.createNoiseField(float(1));
+  flow_field.createCirculatingField(float(400));
+  flow_field.ZXCirculatingField(float(5));
+  flow_field.createUnitRadialField(float(2));
+  flow_field.createRadialField(float(10));
 }
 
 void draw() {
@@ -67,8 +68,15 @@ class Flow_Field{
         float angle = noise(xoff, yoff )* TWO_PI;
         PVector v = PVector.fromAngle(angle);
         for (int k = 0; k < box_resolution; k++) {
+          v.setMag(sqrt(sqrt(sq(i-50)+sq(j-50)+sq(k-50))));
+          v.mult(noise_level);
+          //
+          v.y = -v.y;
+          field[i][box_resolution-j-1][k].add(v);
+          //
+          v.y = -v.y;
           v.z = z_frac*noise(xoff, yoff, zoff);
-          v.setMag(noise_level);
+          //
           field[i][j][k].add(v);
           zoff += inc;
         };
@@ -78,8 +86,8 @@ class Flow_Field{
       //println(field[i][0][0]);
     };
   }
-  void createCirculatingField(){
-    float circulating_level=200;
+  void createCirculatingField(float level){
+    float circulating_level=level;
     for (int i = 0; i < box_resolution; i++) {
       float xoff = float(i)-float(box_resolution/2);
       for (int j = 0; j < box_resolution; j++) {
@@ -94,15 +102,15 @@ class Flow_Field{
       };
     };
   }
-  void ZXCirculatingField(){
-    float circulating_level=100;
+  void ZXCirculatingField(float level){
+    float circulating_level=level;
     for (int i = 0; i < box_resolution; i++) {
       float xoff = float(i)-float(box_resolution/2);
       for (int j = 0; j < box_resolution; j++) {
         float yoff = float(j)-float(box_resolution/2);
         PVector vec = new PVector(-yoff,0,xoff);
         float r = vec.mag();
-        vec.setMag(1/r);
+        vec.setMag(1);
         vec.mult(circulating_level);
         for (int k = 0; k < box_resolution; k++) {
           field[i][j][k].add(vec);
@@ -110,8 +118,8 @@ class Flow_Field{
       };
     };
   }
-  void createRadialField(){
-    float radial_level=0.2;
+  void createUnitRadialField(float level){
+    float radial_level=0.1;
     for (int i = 0; i < box_resolution; i++) {
       float xoff = float(i)-float(box_resolution/2);
       for (int j = 0; j < box_resolution; j++) {
@@ -119,7 +127,23 @@ class Flow_Field{
         for (int k = 0; k < box_resolution; k++) {
           float zoff = float(k)-float(box_resolution/2);
           PVector vec = new PVector(-xoff,-yoff, -zoff);
-          vec.setMag(sqrt(vec.mag()));
+          vec.setMag(1);
+          vec.mult(radial_level);
+          field[i][j][k].add(vec);
+        };
+      };
+    };
+  }
+  void createRadialField(float level){
+    float radial_level=2;
+    for (int i = 0; i < box_resolution; i++) {
+      float xoff = float(i)-float(box_resolution/2);
+      for (int j = 0; j < box_resolution; j++) {
+        float yoff = float(j)-float(box_resolution/2);
+        for (int k = 0; k < box_resolution; k++) {
+          float zoff = float(k)-float(box_resolution/2);
+          PVector vec = new PVector(-xoff,-yoff, -zoff);
+          vec.setMag(sqrt(1/vec.mag()));
           vec.mult(radial_level);
           field[i][j][k].add(vec);
         };
