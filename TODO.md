@@ -1,9 +1,18 @@
-* add lifetime as part of the Particle constructor
-* Check iterator code with Nature of Code
-* check it python iterator also makes sure you loop over everything once
 
-* Delete particles when they get sucked out
 * move box_size back into Flock constructor and into main/FlockSystem
 * change hardcoding of initial position of particles
 ## Plan
-1. Create and visualize hurrican+perlin noise flow field
+### One Title
+* change velocity flow field to acceleration flow field, so particles can gain momentum
+    * **THINK about how max speed will change my visualization**
+
+* calculate time diff regular mean too
+* counter to decide how often to change the flowfield
+
+* Make initial points to random points on a sphere?? 
+
+### Multiple Titles
+* Create flock objects for dataset to load into
+* Put on a square
+* define parameters that will allow you to hide the others and change camera view
+

@@ -23,13 +23,14 @@ void setup() {
   flow_field.createCirculatingField(float(800));
   flow_field.ZXCirculatingField(0);
   flow_field.createUnitRadialField(1);
-  flow_field.createRadialField(50);
+  flow_field.createRadialField(1);
 }
 
 void draw() {
   background(0);
   //lights();
   flock.run();
+  //println(frameRate);
 }
 
 //// Add a new boid into the System
@@ -119,7 +120,7 @@ class Flow_Field{
     };
   }
   void createUnitRadialField(float level){
-    float radial_level=0.1;
+    float radial_level=level;
     for (int i = 0; i < box_resolution; i++) {
       float xoff = float(i)-float(box_resolution/2);
       for (int j = 0; j < box_resolution; j++) {
@@ -135,7 +136,7 @@ class Flow_Field{
     };
   }
   void createRadialField(float level){
-    float radial_level=2;
+    float radial_level=level;
     for (int i = 0; i < box_resolution; i++) {
       float xoff = float(i)-float(box_resolution/2);
       for (int j = 0; j < box_resolution; j++) {
