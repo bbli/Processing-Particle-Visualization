@@ -5,11 +5,13 @@ class Flock {
   ArrayList<Particle> particles; // An ArrayList for all the particles
   int box_size;
   PVector offset;
+  float maxspeed;
 
   Flock(PVector offset) {
     particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.offset = offset;
     box_size=400;
+    maxspeed = 10;
   }
 
   void addParticle(Particle b) {
@@ -17,25 +19,27 @@ class Flock {
   }
   ////////////////////////////////////////////////////////////////////////////
   void run() {
-    for (Particle b : particles) {
-      vel_flowfield(flow_field, b);
-      b.update();  // Passing the entire list of particles to each boid individually
+    for (Particle a : particles) {
+      acc_flowfield(flow_field, a);
+      a.update();  // Passing the entire list of particles to each boid individually
+      constrainSpeed(a);
+      borders(a);
     }
-    borders();
     display();
     //removeParticles();
   }
 
-  void vel_flowfield(Flow_Field flow_field, Particle b){
+  void acc_flowfield(Flow_Field flow_field, Particle b){
+    // Assumptions: borders() needs to be called after every iteration for valid map
     int i = floor(map(b.position.x,-box_size,box_size,0,flow_field.box_resolution-1));
     int j = floor(map(b.position.y,-box_size,box_size,0, flow_field.box_resolution-1));
     int k = floor(map(b.position.z,-box_size,box_size,0, flow_field.box_resolution-1));
     //println(i);
     //println(j);
-    b.velocity = flow_field.field[i][j][k];
+    b.acceleration = flow_field.field[i][j][k];
   }
 
-  void borders(){
+  void borders(Particle a){
     //for (Particle a: particles){
       //if (a.position.x < -box_size) a.velocity.x = -a.velocity.x;
       //if (a.position.y < -box_size) a.velocity.y = -a.velocity.y;
@@ -45,15 +49,17 @@ class Flock {
       //if (a.position.z > box_size) a.velocity.z = -a.velocity.z;
 
     //}
-    for (Particle a: particles){
-      if (a.position.x < -box_size) a.position.x = box_size;
-      if (a.position.y < -box_size) a.position.y = box_size;
-      if (a.position.z < -box_size) a.position.z = box_size;
-      if (a.position.x > box_size) a.position.x = -box_size;
-      if (a.position.y > box_size) a.position.y = -box_size;
-      if (a.position.z > box_size) a.position.z = -box_size;
+    if (a.position.x < -box_size) a.position.x = box_size;
+    if (a.position.y < -box_size) a.position.y = box_size;
+    if (a.position.z < -box_size) a.position.z = box_size;
+    if (a.position.x > box_size) a.position.x = -box_size;
+    if (a.position.y > box_size) a.position.y = -box_size;
+    if (a.position.z > box_size) a.position.z = -box_size;
 
-    }
+  }
+
+  void constrainSpeed(Particle a){
+    if (a.velocity.mag()>maxspeed) a.velocity.setMag(maxspeed);
   }
 
   void display(){
