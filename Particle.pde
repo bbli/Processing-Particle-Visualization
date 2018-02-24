@@ -7,11 +7,9 @@ class Particle {
   //float r;
   //float maxforce;    // Maximum steering force
   //float maxspeed;    // Maximum speed
-  float box_size;
   float lifespan=5;
 
-  Particle(float x, float y, float z, int box_size) {
-    this.box_size= (float)box_size;
+  Particle(float x, float y, float z) {
     acceleration = new PVector(0, 0,0);
 
     // This is a new PVector method not yet implemented in JS

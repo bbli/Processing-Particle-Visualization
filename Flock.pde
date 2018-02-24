@@ -6,12 +6,16 @@ class Flock {
   int box_size;
   PVector offset;
   float maxspeed;
+  float[] influx;
+  float[] time_diffs;
 
-  Flock(PVector offset) {
-    particles = new ArrayList<Particle>(); // Initialize the ArrayList
+  Flock(PVector offset, int array_length) {
+    this.particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.offset = offset;
-    box_size=400;
-    maxspeed = 10;
+    this.influx = new float[array_length];
+    this.time_diffs = new float[array_length];
+    this.box_size= 400;
+    this.maxspeed = 10;
   }
 
   void addParticle(Particle b) {
