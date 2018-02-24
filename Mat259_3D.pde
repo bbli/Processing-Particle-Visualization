@@ -144,7 +144,7 @@ class Flow_Field{
         for (int k = 0; k < box_resolution; k++) {
           float zoff = float(k)-float(box_resolution/2);
           PVector vec = new PVector(-xoff,-yoff, -zoff);
-          vec.setMag(sqrt(1/vec.mag()));
+          vec.setMag(sqrt(vec.mag()));
           vec.mult(radial_level);
           field[i][j][k].add(vec);
         };
