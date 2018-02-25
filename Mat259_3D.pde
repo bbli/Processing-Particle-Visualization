@@ -1,35 +1,45 @@
 
 import peasy.*;
 PeasyCam cam;
-Flock flock;
+FlockSystem system;
 Flow_Field flow_field;
 
 void setup() {
   size(1200, 800,P3D);
-  cam = new PeasyCam(this, 1200);
+  cam = new PeasyCam(this, 0,0,0,2000);
   cam.setFreeRotationMode();
-  PVector offset = new PVector(0,0,0);
-  flock = new Flock(offset,4500);
-  // Add an initial set of particles into the system
+  ////////////////////////////////////////////////////////////////////////////
+  Table table;
+  int numRows;
+  int numCols;
+  int number_of_titles;
+  table = loadTable("dataset.csv");
+  numRows = table.getRowCount();
+  numCols = table.getColumnCount();
+  println("Rows: " + numRows + " Columns: " + numCols);
+  number_of_titles = numCols/2;
+  println(number_of_titles);
+  system = new FlockSystem(number_of_titles, table);
+  ////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////
+  //flock = new Flock(offset,4500);
+  ////////////////////////////////////////////////////////////////////////////
   flow_field = new Flow_Field();
   flow_field.createNoiseField(0.06,5);
   flow_field.createCirculatingField(float(800));
   flow_field.ZXCirculatingField(0);
   flow_field.createUnitRadialField(1);
   flow_field.createRadialField(1);
+  ////////////////////////////////////////////////////////////////////////////
 }
 
 void draw() {
   background(0);
   //lights();
-  flock.run();
+  system.run();
+  //flock.run();
   //println(frameRate);
 }
-
-//// Add a new boid into the System
-//void mousePressed() {
-  //flock.addParticle(new Particle(mouseX,mouseY));
-//}
 
 
 class Flow_Field{

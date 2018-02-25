@@ -3,6 +3,7 @@
 * change hardcoding of initial position of particles
 ## Plan
 ### One Title
+* display supply percentage
 * change velocity flow field to acceleration flow field, so particles can gain momentum
     * **THINK about how max speed will change my visualization**
 
@@ -13,6 +14,7 @@
 
 ### Multiple Titles
 * Create flock objects for dataset to load into
-* Put on a square
 * define parameters that will allow you to hide the others and change camera view
+
+* add option to hide inner lines and just leave outside box?
 
