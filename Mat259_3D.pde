@@ -9,15 +9,8 @@ void setup() {
   cam = new PeasyCam(this, 1200);
   cam.setFreeRotationMode();
   PVector offset = new PVector(0,0,0);
-  flock = new Flock(offset);
-  int inital_flock_size= 2000;
+  flock = new Flock(offset,4500);
   // Add an initial set of particles into the system
-  int box_size = 300;
-  for (int i = 0; i < inital_flock_size; i++) {
-    //flock.addParticle(new Particle(random(-box_size,box_size),random(-box_size,box_size),0, flock.box_size));
-    flock.addParticle(new Particle(2*random(-100,100),2*random(-100,100),random(-100,100), flock.box_size));
-  }
-  //int box_size=300;
   flow_field = new Flow_Field();
   flow_field.createNoiseField(0.06,5);
   flow_field.createCirculatingField(float(800));

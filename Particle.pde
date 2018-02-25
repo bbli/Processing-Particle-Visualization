@@ -11,13 +11,7 @@ class Particle {
 
   Particle(float x, float y, float z) {
     acceleration = new PVector(0, 0,0);
-
-    // This is a new PVector method not yet implemented in JS
-    // velocity = PVector.random2D();
-    // Leaving the code temporarily this way so that this example runs in JS
-    float angle = random(TWO_PI);
-    velocity = new PVector(cos(angle), sin(angle), random(-0.2,0));
-
+    velocity = PVector.random3D();
     position = new PVector(x, y, z);
     //r = 2.0;
     //maxspeed = 20;
