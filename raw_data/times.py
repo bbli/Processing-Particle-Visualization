@@ -1,5 +1,5 @@
-import pandas as pd
 import datetime
+import pandas as pd
 import numpy as np
 
 path1='/home/benson/Dropbox/Code/Projects/Mat259_3D/raw_data/programming_languages.csv'
@@ -11,7 +11,7 @@ paths = [path1, path2, path3, path4]
 
 
 def data_extractor(path, number_of_days=4500):
-    number = number_of_days 
+    number = number_of_days
     df = pd.read_csv(path)
     df['cin'] = df['cin'].shift(1)
     shifted_df= df.groupby('itemNumber').apply(lambda group: group.iloc[1:])
@@ -29,7 +29,7 @@ def data_extractor(path, number_of_days=4500):
     ################################################################
     ## Creating a new dataframe for better readability
     filtered_df = shifted_df[shifted_df.time_diff>0]
-    cutoff = 90
+    cutoff = 150
     def frac_over(series):
         over_sum =0
         for s in series:

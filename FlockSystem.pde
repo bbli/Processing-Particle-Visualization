@@ -15,7 +15,6 @@ class FlockSystem {
       ////////////////////
       int rows=table.getRowCount();
       float[][] data = dataFromTable(i,table);
-      println(data[9][1]);
       ////////////////////
       flocksystem.add(new Flock(data, offset, box_size));
     }; 

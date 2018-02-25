@@ -29,6 +29,7 @@ class Flock {
     for (int i = 0; i < data.length; i++) {
       time_diffs[i]= data[i][1];
     };
+    //println(time_diffs[9]);
   }
 
   ////////////////////////////////////////////////////////////////////////////

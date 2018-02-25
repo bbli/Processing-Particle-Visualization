@@ -13,7 +13,6 @@
 * Make initial points to random points on a sphere?? 
 
 ### Multiple Titles
-* Create flock objects for dataset to load into
 * define parameters that will allow you to hide the others and change camera view
 
 * add option to hide inner lines and just leave outside box?
