@@ -42,9 +42,11 @@ class Field {
       average_time_diff = 0.5*average_time_diff + 0.5*possible_time_diff;
       current_supply = current_supply + possible_influx;
     }
-    circulating_level = 1500-map(average_time_diff, this.global_min_time_diff, global_max_time_diff,0,1500);
-    radial_level = map(current_supply, 0, this.global_max_supply, 0,10);
+    circulating_level = 1/map(average_time_diff, this.global_min_time_diff, global_max_time_diff,0.0005,0.05);
+    radial_level = sq(map(current_supply, 0, this.global_max_supply, 0,4));
     //if influx value is 0, return previous vector
+    println("circulating_level is now: "+ circulating_level);
+    println("radial_level is now: "+radial_level);
 
   }
   ////////////////////////////////////////////////////////////////////////////
