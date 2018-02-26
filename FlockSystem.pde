@@ -1,10 +1,12 @@
 class FlockSystem {
+  //This class controls placements of Flocks
   ArrayList<Flock> flocksystem;
-  PVector offset;
-  int box_size;//Needs to be defined here so I can create appropiate offset
-  int number_of_titles;
 
-  FlockSystem(int number_of_titles, Table table){
+  private PVector offset;
+  final int box_size;//Needs to be defined here so I can create appropiate offset
+  final int number_of_titles;
+
+  FlockSystem(int number_of_titles, Table table, float[] max_supplies){
     flocksystem = new ArrayList<Flock>();
     this.box_size = 400;
     this.number_of_titles = number_of_titles;
@@ -16,7 +18,7 @@ class FlockSystem {
       int rows=table.getRowCount();
       float[][] data = dataFromTable(i,table);
       ////////////////////
-      flocksystem.add(new Flock(data, offset, box_size));
+      flocksystem.add(new Flock(data, offset, box_size, max_supplies[i]));
     }; 
   }
   PVector indexToOffset(int index, int offset_size){

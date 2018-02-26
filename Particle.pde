@@ -1,31 +1,28 @@
 // The Particle class
 class Particle {
-
-  PVector position;
   PVector velocity;
   PVector acceleration;
-  //float r;
-  //float maxforce;    // Maximum steering force
-  //float maxspeed;    // Maximum speed
-  float lifespan=5;
+  private PVector position;
 
-  Particle(float x, float y, float z) {
-    acceleration = new PVector(0, 0,0);
+  final int box_size;
+  final float maxspeed;    // Maximum speed
+
+  Particle(int box_size) {
+    this.box_size = box_size;
+    position = new PVector(random(-this.box_size,this.box_size),random(-this.box_size,this.box_size),random(-this.box_size,this.box_size));
     velocity = PVector.random3D();
-    position = new PVector(x, y, z);
-    //r = 2.0;
-    //maxspeed = 20;
-    //maxforce = 0.3;
+    acceleration = new PVector(0, 0,0);
+    maxspeed = 10;
   }
 
 ////////////////////////////////////////////////////////////////////////////
   void update() {
     //acc__flockForces(particles);
-    velocity.add(this.acceleration);
+    velocity.add(acceleration);
     // To get velocity out of 0 velocity zones. Also can make system look more chaotic
     //velocity.add(PVector.random3D().setMag(0.2));
     // Limit speed
-    //velocity.limit(maxspeed);
+    velocity.limit(maxspeed);
     position.add(velocity);
     // Reset accelertion to 0 each cycle
     acceleration.mult(0);
@@ -52,15 +49,10 @@ class Particle {
     //applyForce(coh);
   //}
   ////////////////////
-
-
-  ////////////////////
-
 ////////////////////////////////////////////////////////////////////////////
-
-  boolean isDead(){
-    if ((int)lifespan>0) return false;
-    else return true;
-}
+  //boolean isDead(){
+    //if ((int)lifespan>0) return false;
+    //else return true;
+//}
 
 }

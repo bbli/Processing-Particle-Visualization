@@ -1,57 +1,92 @@
-//import java.util.Iterator;
-// The Flock (a list of Particle objects)
 class Flock {
+  // The Flock (a list of Particle objects)
+  //This class connects particles with forces
+  //puts constraints on the position, 
+  //and displays the particles
+  Default_Field default_field;
+  Field field;
   ArrayList<Particle> particles; // An ArrayList for all the particles
-  int box_size;
-  PVector offset;
-  float maxspeed;
-  float[] influx;
-  float[] time_diffs;
-  int inital_flock_size;
 
-  Flock(float[][] data, PVector offset, int box_size) {
+  private final float[] influx;
+  private final float[] time_diffs;
+  private int counter;
+  final int box_size;
+  final int box_resolution;
+  final PVector offset;
+  final int inital_flock_size;
+  final int field_change_rate;
+  final float max_time_diff;
+
+  Flock(float[][] data, PVector offset, int box_size, float max_supply) {
     this.particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.box_size= box_size;
+    this.box_resolution = 50;
     this.offset = offset;
-    this.maxspeed = 10;
     this.influx = new float[data.length];
     this.time_diffs = new float[data.length];
-    this.inital_flock_size = 2000;
+    this.inital_flock_size = 1250;
+    this.counter =0;
+    this.field_change_rate =1;
 
     //create all the particles
     for (int i = 0; i < inital_flock_size; i++) {
-      particles.add(new Particle(random(-this.box_size,this.box_size),random(-this.box_size,this.box_size),random(-this.box_size,this.box_size)));
+      this.particles.add(new Particle(box_size));
     }
     //load the data in
     for (int i = 0; i < data.length; i++) {
-      influx[i]= data[i][0];
+      this.influx[i]= data[i][0];
     };
     for (int i = 0; i < data.length; i++) {
-      time_diffs[i]= data[i][1];
+      this.time_diffs[i]= data[i][1];
     };
+    this.max_time_diff = max(time_diffs);
     //println(time_diffs[9]);
+
+    // create the default_field
+    this.default_field = new Default_Field();
+    // creates Field object
+    this.field = new Field(influx, time_diffs, max_supply);
   }
 
   ////////////////////////////////////////////////////////////////////////////
   void run() {
     for (Particle a : particles) {
-      acc_flowfield(flow_field, a);
-      a.update();  // Passing the entire list of particles to each boid individually
-      constrainSpeed(a);
-      borders(a);
+    acc_flowfield(this.default_field, a);
+    acc_circulation(this.field, a);
+    acc_radialSpring(this.field, a);
+
+    a.update(); 
+    borders(a);
     }
     display();
-    //removeParticles();
+    counter += 1;
+    if (counter%field_change_rate == 0){
+      field_update();
+    }
   }
 
-  void acc_flowfield(Flow_Field flow_field, Particle b){
+  void acc_circulation(Field field, Particle a){
+    int i = floor(map(a.position.x,-box_size,box_size,-box_resolution,box_resolution));
+    int j = floor(map(a.position.y,-box_size,box_size,-box_resolution, box_resolution));
+    PVector vec = field.circ_field(i,j);
+    a.acceleration.add(vec);
+  }
+  void acc_radialSpring(Field field, Particle a){
+    int i = floor(map(a.position.x,-box_size,box_size,-box_resolution,box_resolution));
+    int j = floor(map(a.position.y,-box_size,box_size,-box_resolution, box_resolution));
+    int k = floor(map(a.position.z,-box_size,box_size,-box_resolution, box_resolution));
+    PVector vec = field.radialSpring(i,j,k);
+    a.acceleration.add(vec);
+  }
+
+  void acc_flowfield(Default_Field default_field, Particle b){
     // Assumptions: borders() needs to be called after every iteration for valid map
-    int i = floor(map(b.position.x,-box_size,box_size,0,flow_field.box_resolution-1));
-    int j = floor(map(b.position.y,-box_size,box_size,0, flow_field.box_resolution-1));
-    int k = floor(map(b.position.z,-box_size,box_size,0, flow_field.box_resolution-1));
+    int i = floor(map(b.position.x,-box_size,box_size,0,default_field.box_resolution-1));
+    int j = floor(map(b.position.y,-box_size,box_size,0, default_field.box_resolution-1));
+    int k = floor(map(b.position.z,-box_size,box_size,0, default_field.box_resolution-1));
     //println(i);
     //println(j);
-    b.acceleration = flow_field.field[i][j][k];
+    b.acceleration = default_field.field[i][j][k];
   }
 
   void borders(Particle a){
@@ -73,9 +108,6 @@ class Flock {
 
   }
 
-  void constrainSpeed(Particle a){
-    if (a.velocity.mag()>maxspeed) a.velocity.setMag(maxspeed);
-  }
 
   void display(){
     //draw the enclosing box
@@ -88,7 +120,6 @@ class Flock {
     popMatrix();
 
     for (Particle a: particles){
-
       //fill(200, 100);
       stroke(255,90);
       strokeWeight(5);
@@ -100,13 +131,14 @@ class Flock {
       popMatrix();
     }
   }
-  //void removeParticles(){
-    //Iterator it = new Iterator(particles);
-    //while(it.hasNext()){
-      //Particle a = it.next();
-      //if (a.isDead()) particles.remove();
-    //}
-  //}
-////////////////////////////////////////////////////////////////////////////
+  void field_update(){
+    if (field.hasInflux()){
+      field.nextValues();
+    }
+    else {
+      field.influx_iterator = new Iterator(influx);
+      field.time_diffs_iterator= new Iterator(time_diffs);
+      field.nextValues();
+    }
+  }
 }
-

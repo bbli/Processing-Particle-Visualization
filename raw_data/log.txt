@@ -1,0 +1,43 @@
+Logs for title 0
+If this percentage is too high, increase the cutoff variable (current value = 150)in this script: 0.061128156714656594
+Max time diff: 149
+Min time diff: 1
+Max supply: 1002
+latest checkout time: 4381
+latest checkout time: 4370
+Average checkouts per day: 2.6504444444444446
+Unnormalized time diffs average: 66.70577777777778
+Normalized time diffs average: 21.326265255731922
+Logs for title 1
+If this percentage is too high, increase the cutoff variable (current value = 150)in this script: 0.14415041782729804
+Max time diff: 149
+Min time diff: 1
+Max supply: 164
+latest checkout time: 4355
+latest checkout time: 4343
+Average checkouts per day: 0.27244444444444443
+Unnormalized time diffs average: 9.252444444444444
+Normalized time diffs average: 7.509333333333333
+Logs for title 2
+If this percentage is too high, increase the cutoff variable (current value = 150)in this script: 0.10828025477707007
+Max time diff: 149
+Min time diff: 1
+Max supply: 219
+latest checkout time: 4377
+latest checkout time: 4359
+Average checkouts per day: 0.4348888888888889
+Unnormalized time diffs average: 12.030666666666667
+Normalized time diffs average: 8.92298253968254
+Logs for title 3
+If this percentage is too high, increase the cutoff variable (current value = 150)in this script: 0.05976961530102152
+Max time diff: 149
+Min time diff: 1
+Max supply: 634
+latest checkout time: 4381
+latest checkout time: 4369
+Average checkouts per day: 1.9208888888888889
+Unnormalized time diffs average: 47.757777777777775
+Normalized time diffs average: 19.171911503928172
+Change the global_max_supply variable in the Mat259_3D pde file to: 1002
+Change the global_max_time_diff variable in the Mat259_3D pde file to: 149
+Change the global_min_time_diff variable in the Mat259_3D pde file to: 1

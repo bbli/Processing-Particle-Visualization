@@ -43,6 +43,8 @@ def data_extractor(path, number_of_days=4500):
     filtered_df = filtered_df[filtered_df.time_diff<cutoff]
     max_time_diff = filtered_df['time_diff'].max()
     print("Max time diff: {}".format(max_time_diff))
+    min_time_diff = filtered_df['time_diff'].min()
+    print("Min time diff: {}".format(min_time_diff))
     supply = len(list(filtered_df['itemNumber'].unique()))
     print("Max supply: {}".format(supply))
     ################################################################
@@ -85,7 +87,7 @@ def data_extractor(path, number_of_days=4500):
     print("Normalized time diffs average: {}".format(final_time_diffs.mean()))
 
     influx = checkouts - checkins
-    return influx, final_time_diffs, supply, max_time_diff
+    return influx, final_time_diffs, supply, max_time_diff, min_time_diff
 
 number_of_days = 4500
 dataset= np.zeros((number_of_days,2*len(paths)), dtype='float64')
@@ -93,9 +95,10 @@ dataset= np.zeros((number_of_days,2*len(paths)), dtype='float64')
 if __name__ == '__main__':
     global_max_time_diff =0
     global_max_supply =0
+    global_min_time_diff =0
     for i,item in enumerate(paths):
         print("Logs for title {}".format(i))
-        influx, final_time_diffs, supply, max_time_diff = data_extractor(item, number_of_days)
+        influx, final_time_diffs, supply, max_time_diff, min_time_diff = data_extractor(item, number_of_days)
         dataset[:,2*i] = influx
         dataset[:,2*i+1] = final_time_diffs
 ################################################################
@@ -103,8 +106,11 @@ if __name__ == '__main__':
             global_max_time_diff= max_time_diff
         if supply> global_max_supply:
             global_max_supply = supply
+        if min_time_diff< global_max_time_diff:
+            global_min_time_diff = min_time_diff
 ################################################################
-    print("Change the max_supply variable in the Mat259_3D pde file to: {}".format(global_max_supply))
-    print("Change the max_time_diff variable in the Mat259_3D pde file to: {}".format(global_max_time_diff))
+    print("Change the global_max_supply variable in the Mat259_3D pde file to: {}".format(global_max_supply))
+    print("Change the global_max_time_diff variable in the Mat259_3D pde file to: {}".format(global_max_time_diff))
+    print("Change the global_min_time_diff variable in the Mat259_3D pde file to: {}".format(global_min_time_diff))
     np.savetxt("dataset.csv", dataset, delimiter = ',')
         
