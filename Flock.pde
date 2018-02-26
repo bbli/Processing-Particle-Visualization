@@ -14,7 +14,6 @@ class Flock {
   final int box_resolution;
   final PVector offset;
   final int inital_flock_size;
-  final int field_change_rate;
   final float max_time_diff;
 
   Flock(float[][] data, PVector offset, int box_size, float max_supply) {
@@ -26,7 +25,6 @@ class Flock {
     this.time_diffs = new float[data.length];
     this.inital_flock_size = 1250;
     this.counter =0;
-    this.field_change_rate =1;
 
     //create all the particles
     for (int i = 0; i < inital_flock_size; i++) {
@@ -60,9 +58,7 @@ class Flock {
     }
     display();
     counter += 1;
-    if (counter%field_change_rate == 0){
-      field_update();
-    }
+    field_update();
   }
 
   void acc_circulation(Field field, Particle a){
@@ -79,14 +75,14 @@ class Flock {
     a.acceleration.add(vec);
   }
 
-  void acc_flowfield(Default_Field default_field, Particle b){
+  void acc_flowfield(Default_Field default_field, Particle a){
     // Assumptions: borders() needs to be called after every iteration for valid map
-    int i = floor(map(b.position.x,-box_size,box_size,0,default_field.box_resolution-1));
-    int j = floor(map(b.position.y,-box_size,box_size,0, default_field.box_resolution-1));
-    int k = floor(map(b.position.z,-box_size,box_size,0, default_field.box_resolution-1));
+    int i = floor(map(a.position.x,-box_size,box_size,0,default_field.box_resolution-1));
+    int j = floor(map(a.position.y,-box_size,box_size,0, default_field.box_resolution-1));
+    int k = floor(map(a.position.z,-box_size,box_size,0, default_field.box_resolution-1));
     //println(i);
     //println(j);
-    b.acceleration = default_field.field[i][j][k];
+    a.acceleration = default_field.field[i][j][k];
   }
 
   void borders(Particle a){
