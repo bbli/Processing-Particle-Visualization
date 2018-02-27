@@ -6,6 +6,7 @@ class Flock {
   Default_Field default_field;
   Field field;
   ArrayList<Particle> particles; // An ArrayList for all the particles
+  PImage colorBar;
 
   private final float[] influx;
   private final float[] time_diffs;
@@ -25,6 +26,7 @@ class Flock {
     this.time_diffs = new float[data.length];
     this.inital_flock_size = 1250;
     this.counter =0;
+    this.colorBar = loadImage("plasma.png");
 
     //create all the particles
     for (int i = 0; i < inital_flock_size; i++) {
@@ -56,7 +58,7 @@ class Flock {
     a.update(); 
     borders(a);
     }
-    display();
+    display(field);
     counter += 1;
     field_update();
   }
@@ -105,7 +107,7 @@ class Flock {
   }
 
 
-  void display(){
+  void display(Field field){
     //draw the enclosing box
     stroke(255,255,255);
     strokeWeight(3);
@@ -115,9 +117,12 @@ class Flock {
     box(2*box_size);
     popMatrix();
 
+    color c = colorBar.get((int)map(field.circulating_level, field.min_circulating_level,field.max_circulating_level, 5, colorBar.width-5), colorBar.height/2);
+
     for (Particle a: particles){
       //fill(200, 100);
-      stroke(255,90);
+      //stroke(255,90);
+      stroke(c);
       strokeWeight(5);
       pushMatrix();
       translate(offset.x, offset.y, offset.z);
