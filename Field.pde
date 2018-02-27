@@ -8,7 +8,7 @@ class Field {
   final float min_circulating_level;
   final float max_circulating_level;
   float radial_level;
-  private float average_time_diff;
+  private float current_time_diff;
   private float current_supply;
 
   final float global_min_time_diff;
@@ -21,7 +21,7 @@ class Field {
   Field(float[] influx, float[] time_diffs, float max_supply){
     this.influx_iterator = new Iterator(influx);
     this.time_diffs_iterator = new Iterator(time_diffs);
-    this.average_time_diff = influx[0];
+    this.current_time_diff = influx[0];
     this.current_supply = max_supply;
     this.global_min_time_diff = g_min_time_diff;
     this.global_max_time_diff = g_max_time_diff;
@@ -43,10 +43,10 @@ class Field {
     float possible_influx=influx_iterator.next();
     float possible_time_diff = time_diffs_iterator.next();
     if (0 != possible_influx){
-      average_time_diff = 0.5*average_time_diff + 0.5*possible_time_diff;
+      current_time_diff = 0.5*current_time_diff + 0.5*possible_time_diff;
       current_supply = current_supply + possible_influx;
     }
-    circulating_level = 1/map(average_time_diff, this.global_min_time_diff, global_max_time_diff,1/max_circulating_level,1/min_circulating_level);
+    circulating_level = 1/map(current_time_diff, this.global_min_time_diff, global_max_time_diff,1/max_circulating_level,1/min_circulating_level);
     radial_level = sq(map(current_supply, 0, this.global_max_supply, 0,4));
     //if influx value is 0, return previous vector
     //println("circulating_level is now: "+ circulating_level);

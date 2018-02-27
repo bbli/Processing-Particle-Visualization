@@ -1,8 +1,5 @@
 ## Plan
 ### One Title
-* Fix Field initialization problem
-* set global variables in Field
-* check constructors
 * optionally show each title
     * Change font
 

@@ -21,6 +21,8 @@ class Flock {
   final String title;
 
   Flock(float[][] data, PVector offset, int box_size, float max_supply, int index) {
+    //Although offset is passed as reference, we don't need to worry because
+    //it was created locally in FlockSystem, so nothing else can change it
     this.particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.box_size= box_size;
     this.box_resolution = 50;
@@ -116,12 +118,12 @@ class Flock {
   void display(Field field){
     //draw the enclosing box
     if (show){
-    displayBox();
-    displayTitle();
-    displayParticles();
+    displayBox(offset, box_size);
+    displayTitle(offset, box_size,title);
+    displayParticles(offset, particles);
     }
   }
-  void displayBox(){
+  void displayBox(PVector offset, int box_size){
     stroke(255,255,255);
     strokeWeight(3);
     noFill();
@@ -131,7 +133,7 @@ class Flock {
     popMatrix();
   }
 
-  void displayTitle(){
+  void displayTitle(PVector offset, int box_size, String title){
       PVector further_offset=indexToOffset(index,box_size);
       PVector temp_offset = offset.copy();
       temp_offset.add(new PVector(3*further_offset.x,0,0));
@@ -141,7 +143,7 @@ class Flock {
       text(title,temp_offset.x, temp_offset.y, -500);
   }
 
-  void displayParticles(){
+  void displayParticles(PVector offset, ArrayList<Particle> particles){
     color c = colorBar.get((int)map(field.circulating_level, field.min_circulating_level,field.max_circulating_level, 5, colorBar.width-5), colorBar.height/2);
 
     for (Particle a: particles){
