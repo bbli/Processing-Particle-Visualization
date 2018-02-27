@@ -1,28 +1,30 @@
-
-* move box_size back into Flock constructor and into main/FlockSystem
-* change hardcoding of initial position of particles
 ## Plan
 ### One Title
+* optionally show each title
+    * Change font
 
-* Deal with the max time_diffs and supply/get inital current supply for each title
-* How to deal with the fact that particle needs the flowfield to update?
-* Figure purpose of inital configuration-> later because I don't have modes yet
-* use `radial_strength` and `circulation_strength` in Flock class
+* get better font
+* add knob that gets value of circulation level
+* add slider to control time?? I seem to have issues with this. need to wait for equilibrium
+* cp4 textArea/textLabel to be invariant of rotatation?
 
-* map max_supply and time_diffs to the field strengths
-* make system restart after iterator dies out
+* dropdown/scrollable/buttonBar mode(cp5 dropdownList)
+* on/off(or bang) button (cp5 background)
+* can wrap all buttons in a cp5 group
 
-* display supply percentage
-* change velocity flow field to acceleration flow field, so particles can gain momentum
-    * **THINK about how max speed will change my visualization**
 
 * calculate time diff regular mean too
-* counter to decide how often to change the flowfield
-
-* Make initial points to random points on a sphere?? 
-
+#### DONE
+* Be ok with not being able to extract any insight from my project
+* change velocity flow field to acceleration flow field, so particles can gain momentum
+    * **THINK about how max speed will change my visualization**-> well speed is just for visual effects, so no problem with data mapping
+* counter to decide how often to change the flowfield-> nah can just change frameRate
+* lets not map the supplies, since its mostly above 90 percent
+* Create mode to combine the "eyes" lol -> This can be done at the same time as just showing one of them
+    * the **text can't be hardcoded then, or I need to rewrite the text**, which is not that bad I guess
 ### Multiple Titles
 * define parameters that will allow you to hide the others and change camera view
+* compare two side by side
 
-* add option to hide inner lines and just leave outside box?
+
 

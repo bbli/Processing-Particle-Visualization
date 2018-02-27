@@ -1,4 +1,6 @@
 import peasy.*;
+import controlP5.*;
+ControlP5 cp5;
 PeasyCam cam;
 FlockSystem system;
 Default_Field flow_field;
@@ -12,11 +14,19 @@ String[] g_titles;
 void setup() {
   size(1200, 800,P3D);
   frameRate(60);
-  cam = new PeasyCam(this, 0,0,0,2000);
+  cam = new PeasyCam(this, 0,0,0,2400);
   //cam.setFreeRotationMode();
   cam.setYawRotationMode(); 
   cam.setMinimumDistance(500);
   cam.setMaximumDistance(3000); 
+
+  cp5 = new ControlP5(this);
+  cp5.addButton("Programming", 1, 0, 0, 200, 40).setId(1);
+  cp5.addButton("Networking", 1, 200, 0, 200, 40).setId(2);
+  cp5.addButton("A.I", 1, 400, 0, 200, 40).setId(3);
+  cp5.addButton("Software", 1, 600, 0, 200, 40).setId(4);
+  cp5.addButton("All", 1, 800, 0, 200, 40).setId(5);
+
   ////////////////////////////////////////////////////////////////////////////
   Table table;
   int numCols;
@@ -68,6 +78,16 @@ void draw() {
   system.run();
   //flock.run();
   //println(frameRate);
+  gui();
 }
 
-
+void gui() {
+  hint(DISABLE_DEPTH_TEST);
+  cam.beginHUD();
+  //cp5.draw();
+  cp5.setAutoDraw(false);
+  //ButtonBar b = cp5.addButtonBar("bar").setPosition(0,0).setSize(400,100).addItems(split("Programming Networking A.I Software All", " "));
+  cp5.draw();
+  cam.endHUD();
+  hint(ENABLE_DEPTH_TEST);
+}
