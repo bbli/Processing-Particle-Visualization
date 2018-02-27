@@ -23,10 +23,10 @@ class Field {
     this.time_diffs_iterator = new Iterator(time_diffs);
     this.average_time_diff = influx[0];
     this.current_supply = max_supply;
-    this.global_min_time_diff = 1;
-    this.global_max_time_diff = 149;
+    this.global_min_time_diff = g_min_time_diff;
+    this.global_max_time_diff = g_max_time_diff;
     //this.max_supply = max_supply;
-    this.global_max_supply = 1002;
+    this.global_max_supply = g_max_supply;
     this.box_resolution =100;
     this.min_circulating_level = 20;
     this.max_circulating_level = 2000;
