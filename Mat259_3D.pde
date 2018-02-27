@@ -2,10 +2,12 @@ import peasy.*;
 PeasyCam cam;
 FlockSystem system;
 Default_Field flow_field;
-int global_max_supply;
-int global_max_time_diff;
-int global_min_time_diff;
 float[] max_supplies;
+int g_max_supply;
+int g_min_time_diff;
+int g_max_time_diff;
+String[] g_titles;
+
 
 void setup() {
   size(1200, 800,P3D);
@@ -24,6 +26,11 @@ void setup() {
   println("Columns: " + numCols);
   number_of_titles = numCols/2;
   println(number_of_titles);
+  g_max_supply =1002;
+  g_min_time_diff =1;
+  g_max_time_diff =149;
+  g_titles = new String[]{"Programming", "Networking", "A.I", "Software"};
+
   //These variables are defined inside the Field class
   //global_max_supply = 1002;
   //global_min_time_diff =1;
