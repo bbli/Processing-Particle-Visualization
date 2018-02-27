@@ -2,7 +2,6 @@ class FlockSystem {
   //This class controls placements of Flocks
   ArrayList<Flock> flocksystem;
 
-  private PVector offset;
   final int box_size;//Needs to be defined here so I can create appropiate offset
   final int number_of_titles;
   private int counter;
@@ -28,10 +27,12 @@ class FlockSystem {
   }
   PVector indexToOffset(int index, int offset_size){
     PVector x = new PVector(0,0,0);
-    if (index == 0) x.add(new PVector(offset_size,offset_size,0));
-    else if (index == 1) x.add(new PVector(-offset_size,offset_size,0));
-    else if (index == 2) x.add(new PVector(-offset_size,-offset_size,0));
-    else if (index == 3) x.add(new PVector(offset_size,-offset_size,0));
+    // positive x goes to right
+    // positive y goes down
+    if (index == 0) x.add(new PVector(offset_size,-offset_size,0));
+    else if (index == 1) x.add(new PVector(-offset_size,-offset_size,0));
+    else if (index == 2) x.add(new PVector(-offset_size,offset_size,0));
+    else if (index == 3) x.add(new PVector(offset_size,offset_size,0));
     return x;
   }
 
@@ -64,14 +65,28 @@ class FlockSystem {
   }
   void displayTitles(){
     for (int i = 0; i < this.number_of_titles; i++) {
-      PVector offset=indexToOffset(i,box_size);
-      offset.add(new PVector(3*offset.x,0,0));
+      PVector further_offset=indexToOffset(i,box_size);
+      PVector temp_offset = flocksystem.get(i).offset.copy();
+      temp_offset.add(new PVector(3*further_offset.x,0,0));
       textAlign(CENTER, CENTER);
       textSize(100);
       fill(255,255,255);
-      text(titles[i],offset.x, offset.y, -500);
+      text(titles[i],temp_offset.x, temp_offset.y, -500);
     };
+
   }
+  void allOffsetZero(){
+    for(Flock flock: flocksystem){
+      flock.offset = new PVector(0,0,0);
+    }
+  }
+  void resetOffset(){
+    for (int i = 0; i < this.number_of_titles; i++) {
+      PVector offset=indexToOffset(i,box_size);
+      flocksystem.get(i).offset = offset;
+    }  
+  }
+
 
 }
 

@@ -23,7 +23,7 @@ void setup() {
   cp5 = new ControlP5(this);
   cp5.addButton("Programming", 1, 0, 0, 200, 40).setId(1);
   cp5.addButton("Networking", 1, 200, 0, 200, 40).setId(2);
-  cp5.addButton("A.I", 1, 400, 0, 200, 40).setId(3);
+  cp5.addButton("AI", 1, 400, 0, 200, 40).setId(3);
   cp5.addButton("Software", 1, 600, 0, 200, 40).setId(4);
   cp5.addButton("All", 1, 800, 0, 200, 40).setId(5);
 
@@ -39,7 +39,7 @@ void setup() {
   g_max_supply =1002;
   g_min_time_diff =1;
   g_max_time_diff =149;
-  g_titles = new String[]{"Programming", "Networking", "A.I", "Software"};
+  g_titles = new String[]{"Programming", "Networking", "AI", "Software"};
 
   //These variables are defined inside the Field class
   //global_max_supply = 1002;
@@ -49,29 +49,46 @@ void setup() {
   system = new FlockSystem(number_of_titles, table, max_supplies);
   ////////////////////////////////////////////////////////////////////////////
 }
-
-void keyPressed(){
-  if (key == '1') {
-    cam.lookAt(system.box_size, -system.box_size, -2*system.box_size);
-    // show(1)
-  }
-  if (key == '2'){
-    cam.lookAt(-system.box_size, -system.box_size, -2*system.box_size);
-    //show(2)
-  } 
-  if (key == '3'){
-    cam.lookAt(-system.box_size, system.box_size, -2*system.box_size);
-    //show(3)
-  } 
-  if (key == '4'){
-    cam.lookAt(system.box_size, system.box_size, -2*system.box_size);
-    //show(4)
-  }  
-  else if (key == 'h'){
-    cam.lookAt(0,0,0);
-    //show all
-  } 
+void Programming(){
+    for (Flock f: system.flocksystem){
+      f.show = false;
+    }
+    system.flocksystem.get(0).show = true;
+    system.allOffsetZero();
+    cam.lookAt(0,0,-2*system.box_size);
 }
+void Networking(){
+    for (Flock f: system.flocksystem){
+      f.show = false;
+    }
+    system.flocksystem.get(1).show = true;
+    system.allOffsetZero();
+    cam.lookAt(0,0,-2*system.box_size);
+}
+void AI(){
+    for (Flock f: system.flocksystem){
+      f.show = false;
+    }
+    system.flocksystem.get(2).show = true;
+    system.allOffsetZero();
+    cam.lookAt(0,0,-2*system.box_size);
+}
+void Software(){
+    for (Flock f: system.flocksystem){
+      f.show = false;
+    }
+    system.flocksystem.get(3).show = true;
+    system.allOffsetZero();
+    cam.lookAt(0,0,-2*system.box_size);
+}
+void All(){
+    for (Flock f: system.flocksystem){
+      f.show = true;
+    }
+    system.allOffsetZero();
+    cam.lookAt(0,0,-2*system.box_size);
+}
+
 void draw() {
   background(0);
   lights();

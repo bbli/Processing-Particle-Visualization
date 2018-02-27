@@ -49,8 +49,8 @@ class Field {
     circulating_level = 1/map(average_time_diff, this.global_min_time_diff, global_max_time_diff,1/max_circulating_level,1/min_circulating_level);
     radial_level = sq(map(current_supply, 0, this.global_max_supply, 0,4));
     //if influx value is 0, return previous vector
-    println("circulating_level is now: "+ circulating_level);
-    println("radial_level is now: "+radial_level);
+    //println("circulating_level is now: "+ circulating_level);
+    //println("radial_level is now: "+radial_level);
 
   }
   ////////////////////////////////////////////////////////////////////////////
