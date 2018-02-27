@@ -4,7 +4,7 @@ ControlP5 cp5;
 PeasyCam cam;
 FlockSystem system;
 Default_Field flow_field;
-float[] max_supplies;
+float[] g_max_supplies;
 int g_max_supply;
 int g_min_time_diff;
 int g_max_time_diff;
@@ -40,13 +40,9 @@ void setup() {
   g_min_time_diff =1;
   g_max_time_diff =149;
   g_titles = new String[]{"Programming", "Networking", "AI", "Software"};
+  g_max_supplies= new float[]{1002,164,219,634};
 
-  //These variables are defined inside the Field class
-  //global_max_supply = 1002;
-  //global_min_time_diff =1;
-  //global_max_time_diff =149;
-  max_supplies= new float[]{1002,164,219,634};
-  system = new FlockSystem(number_of_titles, table, max_supplies);
+  system = new FlockSystem(number_of_titles, table);
   ////////////////////////////////////////////////////////////////////////////
 }
 void Programming(){

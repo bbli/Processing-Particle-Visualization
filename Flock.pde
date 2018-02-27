@@ -17,8 +17,10 @@ class Flock {
   final int inital_flock_size;
   final float max_time_diff;
   boolean show;
+  final int index;
+  final String title;
 
-  Flock(float[][] data, PVector offset, int box_size, float max_supply) {
+  Flock(float[][] data, PVector offset, int box_size, float max_supply, int index) {
     this.particles = new ArrayList<Particle>(); // Initialize the ArrayList
     this.box_size= box_size;
     this.box_resolution = 50;
@@ -29,6 +31,8 @@ class Flock {
     this.counter =0;
     this.colorBar = loadImage("plasma.png");
     this.show = true;
+    this.index = index;
+    this.title = g_titles[index];
 
     //create all the particles
     for (int i = 0; i < inital_flock_size; i++) {
@@ -112,7 +116,12 @@ class Flock {
   void display(Field field){
     //draw the enclosing box
     if (show){
-
+    displayBox();
+    displayTitle();
+    displayParticles();
+    }
+  }
+  void displayBox(){
     stroke(255,255,255);
     strokeWeight(3);
     noFill();
@@ -120,7 +129,19 @@ class Flock {
     translate(offset.x, offset.y, offset.z);
     box(2*box_size);
     popMatrix();
+  }
 
+  void displayTitle(){
+      PVector further_offset=indexToOffset(index,box_size);
+      PVector temp_offset = offset.copy();
+      temp_offset.add(new PVector(3*further_offset.x,0,0));
+      textAlign(CENTER, CENTER);
+      textSize(100);
+      fill(255,255,255);
+      text(title,temp_offset.x, temp_offset.y, -500);
+  }
+
+  void displayParticles(){
     color c = colorBar.get((int)map(field.circulating_level, field.min_circulating_level,field.max_circulating_level, 5, colorBar.width-5), colorBar.height/2);
 
     for (Particle a: particles){
@@ -135,9 +156,9 @@ class Flock {
       //box(10);
       popMatrix();
     }
-    }
   }
 
+  ////////////////////////////////////////////////////////////////////////////
   void field_update(){
     if (field.hasInflux()){
       field.nextValues();
