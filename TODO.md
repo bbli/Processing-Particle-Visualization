@@ -1,7 +1,5 @@
 ## Plan
 ### One Title
-* optionally show each title
-    * Change font
 
 * get better font
 * add knob that gets value of circulation level
