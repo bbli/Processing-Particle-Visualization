@@ -123,7 +123,7 @@ class Flock {
       //fill(200, 100);
       //stroke(255,90);
       stroke(c);
-      strokeWeight(5);
+      strokeWeight(3);
       pushMatrix();
       translate(offset.x, offset.y, offset.z);
       translate(a.position.x, a.position.y, a.position.z);

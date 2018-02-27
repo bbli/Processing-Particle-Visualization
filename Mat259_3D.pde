@@ -11,7 +11,7 @@ String[] g_titles;
 
 void setup() {
   size(1200, 800,P3D);
-  frameRate(30);
+  frameRate(60);
   cam = new PeasyCam(this, 0,0,0,2000);
   //cam.setFreeRotationMode();
   cam.setYawRotationMode(); 

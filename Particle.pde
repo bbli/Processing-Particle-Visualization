@@ -12,7 +12,7 @@ class Particle {
     position = new PVector(random(-this.box_size,this.box_size),random(-this.box_size,this.box_size),random(-this.box_size,this.box_size));
     velocity = PVector.random3D();
     acceleration = new PVector(0, 0,0);
-    maxspeed = 40;
+    maxspeed = 30;
   }
 
 ////////////////////////////////////////////////////////////////////////////
