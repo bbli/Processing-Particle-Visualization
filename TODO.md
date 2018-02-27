@@ -1,11 +1,7 @@
 ## Plan
 ### One Title
 
-* get better font
-* add knob that gets value of circulation level
-* add slider to control time?? I seem to have issues with this. need to wait for equilibrium
 * cp4 textArea/textLabel to be invariant of rotatation?
-
 * dropdown/scrollable/buttonBar mode(cp5 dropdownList)
 * on/off(or bang) button (cp5 background)
 * can wrap all buttons in a cp5 group

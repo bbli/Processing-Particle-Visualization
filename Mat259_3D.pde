@@ -10,11 +10,12 @@ int g_min_time_diff;
 int g_max_time_diff;
 String[] g_titles;
 int original_zoom;
+int rate;
 
 
 void setup() {
   size(1200, 800,P3D);
-  frameRate(60);
+  rate=60;
   original_zoom =2400;
   cam = new PeasyCam(this, 0,0,0,original_zoom);
   //cam.setFreeRotationMode();
@@ -54,12 +55,14 @@ void setup() {
 }
 
 void draw() {
+  frameRate(rate);
   background(0);
   lights();
   system.run();
   //flock.run();
   //println(frameRate);
   gui();
+  drawFrameRate();
 }
 
 void gui() {
@@ -73,6 +76,14 @@ void gui() {
   hint(ENABLE_DEPTH_TEST);
 }
 
+void drawFrameRate(){
+  textAlign(CENTER, CENTER);
+  textSize(60);
+  fill(255,255,255,150);
+  text("FrameRate:"+rate, 0,700,750);
+}
+
+////////////////////////////////////////////////////////////////////////////
 void Programming(){
     for (Flock f: system.flocksystem){
       f.show = false;
@@ -127,3 +138,11 @@ void Reset(){
   println(cam.getState());
 }
 
+void keyPressed(){
+  if(keyCode==RIGHT){
+    if (rate<60)rate += 2;
+  }
+  if(keyCode==LEFT){
+   if (rate>20) rate -= 2;
+  }
+}
