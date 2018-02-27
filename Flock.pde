@@ -17,6 +17,7 @@ class Flock {
   final int inital_flock_size;
   final float max_time_diff;
   boolean show;
+  boolean title_show;
   final int index;
   final String title;
 
@@ -33,6 +34,7 @@ class Flock {
     this.counter =0;
     this.colorBar = loadImage("plasma.png");
     this.show = true;
+    this.title_show = true;
     this.index = index;
     this.title = g_titles[index];
 
@@ -134,6 +136,7 @@ class Flock {
   }
 
   void displayTitle(PVector offset, int box_size, String title){
+    if (title_show){
       PVector further_offset=indexToOffset(index,box_size);
       PVector temp_offset = offset.copy();
       temp_offset.add(new PVector(3*further_offset.x,0,0));
@@ -141,6 +144,7 @@ class Flock {
       textSize(100);
       fill(255,255,255);
       text(title,temp_offset.x, temp_offset.y, -500);
+    }
   }
 
   void displayParticles(PVector offset, ArrayList<Particle> particles){

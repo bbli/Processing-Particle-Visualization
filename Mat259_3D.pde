@@ -51,6 +51,7 @@ void Programming(){
     }
     system.flocksystem.get(0).show = true;
     system.allOffsetZero();
+    system.turnTitlesOn();
     cam.lookAt(0,0,-2*system.box_size);
 }
 void Networking(){
@@ -59,6 +60,7 @@ void Networking(){
     }
     system.flocksystem.get(1).show = true;
     system.allOffsetZero();
+    system.turnTitlesOn();
     cam.lookAt(0,0,-2*system.box_size);
 }
 void AI(){
@@ -67,6 +69,7 @@ void AI(){
     }
     system.flocksystem.get(2).show = true;
     system.allOffsetZero();
+    system.turnTitlesOn();
     cam.lookAt(0,0,-2*system.box_size);
 }
 void Software(){
@@ -75,6 +78,7 @@ void Software(){
     }
     system.flocksystem.get(3).show = true;
     system.allOffsetZero();
+    system.turnTitlesOn();
     cam.lookAt(0,0,-2*system.box_size);
 }
 void All(){
@@ -82,6 +86,7 @@ void All(){
       f.show = true;
     }
     system.allOffsetZero();
+    system.turnTitlesOff();
     cam.lookAt(0,0,-2*system.box_size);
 }
 

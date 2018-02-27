@@ -41,6 +41,7 @@ class FlockSystem {
     String s = nf(years, 2,2);
     text("Time lapse: "+ s, 0,-1000,-500);
   }
+  ////////////////////////////////////////////////////////////////////////////
   void allOffsetZero(){
     for(Flock flock: flocksystem){
       flock.offset = new PVector(0,0,0);
@@ -52,6 +53,17 @@ class FlockSystem {
       flocksystem.get(i).offset = offset;
     }  
   }
+  ////////////////////////////////////////////////////////////////////////////
+  void turnTitlesOn(){
+    for (Flock flock:flocksystem){
+      flock.title_show = true;
+    }
+  }
+  void turnTitlesOff(){
+  for (Flock flock:flocksystem){
+    flock.title_show = false;
+  }
+}
 
 
 }
