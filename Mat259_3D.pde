@@ -11,10 +11,11 @@ int g_max_time_diff;
 String[] g_titles;
 int original_zoom;
 int rate;
+PImage wallpaper;
 
 
 void setup() {
-  size(1200, 800,P3D);
+  size(1920, 1080,P3D);
   rate=60;
   original_zoom =2400;
   cam = new PeasyCam(this, 0,0,0,original_zoom);
@@ -28,13 +29,13 @@ void setup() {
   ControlFont f = new ControlFont(newFont, 24);
   ControlFont g = new ControlFont(newFont2, 24);
   cp5 = new ControlP5(this);
-  cp5.addButton("Programming", 1, 0, 0, 200, 40).setId(1).setFont(f).setColorBackground(color(148, 0,211));
-  cp5.addButton("Networking", 1, 200, 0, 200, 40).setId(2).setFont(f).setColorBackground(color(148, 0,211));
-  cp5.addButton("AI", 1, 400, 0, 200, 40).setId(3).setFont(f).setColorBackground(color(148, 0,211));
-  cp5.addButton("Software", 1, 600, 0, 200, 40).setId(4).setFont(f).setColorBackground(color(148, 0,211));
-  cp5.addButton("All", 1, 800, 0, 200, 40).setId(5).setFont(f).setColorBackground(color(148, 0,211));
+  cp5.addButton("Programming", 1, 0, 0, 250, 40).setId(1).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
+  cp5.addButton("Networking", 1, 250, 0, 250, 40).setId(2).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
+  cp5.addButton("AI", 1, 500, 0, 250, 40).setId(3).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
+  cp5.addButton("Software", 1, 750, 0, 250, 40).setId(4).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
+  cp5.addButton("All", 1, 1000, 0, 250, 40).setId(5).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
 
-  cp5.addButton("Reset",1, 100,100,120,120).setId(6).setFont(g).setColorBackground(color(148, 0,211));
+  cp5.addButton("Reset",1, 100,100,120,120).setId(6).setFont(g).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
   ////////////////////////////////////////////////////////////////////////////
   Table table;
   int numCols;
@@ -52,11 +53,13 @@ void setup() {
 
   system = new FlockSystem(number_of_titles, table);
   ////////////////////////////////////////////////////////////////////////////
+  wallpaper = loadImage("background3.png");
 }
 
 void draw() {
   frameRate(rate);
-  background(0);
+  //background(0);
+  background(wallpaper);
   lights();
   system.run();
   //flock.run();

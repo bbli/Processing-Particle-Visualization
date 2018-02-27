@@ -153,8 +153,8 @@ class Flock {
     for (Particle a: particles){
       //fill(200, 100);
       //stroke(255,90);
-      stroke(c);
-      strokeWeight(3);
+      stroke(c,200);
+      strokeWeight(6);
       pushMatrix();
       translate(offset.x, offset.y, offset.z);
       translate(a.position.x, a.position.y, a.position.z);
