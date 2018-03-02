@@ -53,13 +53,13 @@ void setup() {
 
   system = new FlockSystem(number_of_titles, table);
   ////////////////////////////////////////////////////////////////////////////
-  wallpaper = loadImage("background3.png");
+  //wallpaper = loadImage("background3.png");
 }
 
 void draw() {
-  frameRate(rate);
-  //background(0);
-  background(wallpaper);
+  //frameRate(rate);
+  background(0);
+  //background(wallpaper);
   lights();
   system.run();
   //flock.run();
@@ -141,11 +141,11 @@ void Reset(){
   println(cam.getState());
 }
 
-void keyPressed(){
-  if(keyCode==RIGHT){
-    if (rate<60)rate += 2;
-  }
-  if(keyCode==LEFT){
-   if (rate>20) rate -= 2;
-  }
-}
+//void keyPressed(){
+  //if(keyCode==RIGHT){
+    //if (rate<60)rate += 2;
+  //}
+  //if(keyCode==LEFT){
+   //if (rate>20) rate -= 2;
+  //}
+//}
