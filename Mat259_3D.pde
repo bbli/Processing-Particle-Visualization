@@ -12,10 +12,16 @@ String[] g_titles;
 int original_zoom;
 int rate;
 PImage wallpaper;
+PFont newFont;
 
 
 void setup() {
   size(1920, 1080,P3D);
+  /////////////////////GUI/CAMERA////////////////////////
+  //// Variables/Arrays: 
+  //// Objects: 
+  //// Effects: 
+  
   rate=60;
   original_zoom =2400;
   cam = new PeasyCam(this, 0,0,0,original_zoom);
@@ -24,19 +30,23 @@ void setup() {
   cam.setMinimumDistance(500);
   cam.setMaximumDistance(3000); 
 
-  PFont newFont = createFont("Buffalo.ttf",32);
-  PFont newFont2 = createFont("RemachineScript_Personal_Use.ttf",32);
+  newFont = createFont("Futura_Bold.ttf",32);
   ControlFont f = new ControlFont(newFont, 24);
-  ControlFont g = new ControlFont(newFont2, 24);
   cp5 = new ControlP5(this);
-  cp5.addButton("Programming", 1, 0, 0, 250, 40).setId(1).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
-  cp5.addButton("Networking", 1, 250, 0, 250, 40).setId(2).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
-  cp5.addButton("AI", 1, 500, 0, 250, 40).setId(3).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
-  cp5.addButton("Software", 1, 750, 0, 250, 40).setId(4).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
-  cp5.addButton("All", 1, 1000, 0, 250, 40).setId(5).setFont(f).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
+  int shift = 125;
+  cp5.addButton("Programming", 1, width/2-500-shift, 0, 250, 40).setId(1).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
+  cp5.addButton("Networking", 1, width/2-250-shift, 0, 250, 40).setId(2).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
+  cp5.addButton("AI", 1, width/2-shift, 0, 250, 40).setId(3).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
+  cp5.addButton("Software", 1, width/2+250-shift, 0, 250, 40).setId(4).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
+  cp5.addButton("All", 1, width/2+500-shift, 0, 250, 40).setId(5).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
 
-  cp5.addButton("Reset",1, 100,100,120,120).setId(6).setFont(g).setColorBackground(color(255,165,0)).setColorCaptionLabel(0);
-  ////////////////////////////////////////////////////////////////////////////
+  cp5.addButton("Reset",1, 100,height/2-60,120,120).setId(6).setFont(f).setColorBackground(color(192,192,192)).setColorCaptionLabel(0);
+
+  /////////////////////DATA LOADING////////////////////////
+  //// Variables/Arrays: 
+  //// Objects: 
+  //// Effects: 
+  
   Table table;
   int numCols;
   int number_of_titles;
@@ -47,25 +57,26 @@ void setup() {
   println(number_of_titles);
   g_max_supply =1002;
   g_min_time_diff =1;
-  g_max_time_diff =149;
+  g_max_time_diff = 89;
   g_titles = new String[]{"Programming", "Networking", "AI", "Software"};
-  g_max_supplies= new float[]{1002,164,219,634};
+  g_max_supplies = new float[]{1002,164,219,634};
 
   system = new FlockSystem(number_of_titles, table);
   ////////////////////////////////////////////////////////////////////////////
   //wallpaper = loadImage("background3.png");
+  frameRate(40);
 }
 
 void draw() {
   //frameRate(rate);
-  background(0);
+  background(10,105,173);
   //background(wallpaper);
   lights();
   system.run();
   //flock.run();
   //println(frameRate);
   gui();
-  drawFrameRate();
+  //drawFrameRate();
 }
 
 void gui() {
@@ -79,12 +90,12 @@ void gui() {
   hint(ENABLE_DEPTH_TEST);
 }
 
-void drawFrameRate(){
-  textAlign(CENTER, CENTER);
-  textSize(60);
-  fill(255,255,255,150);
-  text("FrameRate:"+rate, 0,700,750);
-}
+//void drawFrameRate(){
+  //textAlign(CENTER, CENTER);
+  //textSize(60);
+  //fill(255,255,255,150);
+  //text("FrameRate:"+rate, 0,700,750);
+//}
 
 ////////////////////////////////////////////////////////////////////////////
 void Programming(){

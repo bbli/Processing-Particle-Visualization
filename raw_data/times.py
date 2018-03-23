@@ -29,7 +29,7 @@ def data_extractor(path, number_of_days=4500):
     ################################################################
     ## Creating a new dataframe for better readability
     filtered_df = shifted_df[shifted_df.time_diff>0]
-    cutoff = 150
+    cutoff = 90
     def frac_over(series):
         over_sum =0
         for s in series:

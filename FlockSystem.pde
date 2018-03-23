@@ -32,14 +32,32 @@ class FlockSystem {
     counter += 1;
     if(counter>4500) counter=0;
     displayTime();
+    displayTitles();
   }
   void displayTime(){
+    textFont(newFont);
     textAlign(CENTER, CENTER);
     textSize(120);
-    fill(255,255,255);
-    float years = 2006+float(counter)/365;
-    String s = nf(years, 2,2);
-    text("Time lapse: "+ s, 0,-1000,-500);
+    fill(0);
+    float count = float(counter);
+    float years = 2006+floor(count/365);
+
+    float remainder = count/365-floor(count/365);
+    float months = floor(map(remainder,0,1,1,13));
+    String s = nf(years, 2,0);
+    String t = nf(months, 2,0);
+    text("Years: "+ s+" Months: "+t, 0,-1000,-500);
+  }
+
+  void displayTitles(){
+    textFont(newFont);
+    textAlign(CENTER, CENTER);
+    textSize(80);
+    fill(0);
+    cam.beginHUD();
+    text("Acceleration Field Representation of Data",width/2,height-100);
+    cam.endHUD();
+
   }
   ////////////////////////////////////////////////////////////////////////////
   void allOffsetZero(){
