@@ -16,15 +16,16 @@ To summarize, the behavior of the particles in relation to the supply and demand
 3. as demand goes up, circulation goes up, and the system will move circulate faster. Note that I will be using an exponentially smoothed time_diffs, rather than a average or instantaneous one.
 
 ## Running the Program
+Code was developed in Processing 3.3.6, and used the ControlP5 library.
 
 ## Result
-![first](final_one.png)
+![first](pics/final_one.png)
 The buttons on top allow you to look the particle system that corresponds to each of the titles individually. 
-![second](final_two.png)
+![second](pics/final_two.png)
 The reset button will bring you back to looking at all 4 systems at once.
 
 ## Misc
 To develop my software development abilities, I have tried to:
-    * keep global variables to a minimal, and prepend the global variables which were acessed outside of the `Mat259_3D.pde` file with `g_`
-    * explicitly specifying objects as arguments to functions that modify them
-    * drew out "communications" between objects in terms of blobs and arrows before coding, so as to purpose of each class/object as tidy as possible.
+* keep global variables to a minimal, and prepend the global variables which were acessed outside of the `Mat259_3D.pde` file with `g_`
+* explicitly specifying objects as arguments to functions that modify them
+* drew out "communications" between objects in terms of blobs and arrows before coding, so as to purpose of each class/object as tidy as possible.
